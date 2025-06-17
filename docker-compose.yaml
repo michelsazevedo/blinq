@@ -1,0 +1,54 @@
+services:
+  test: &base
+    build: .
+    image: blend-test
+    command: bundle exec rspec -fd .
+    platform: linux/amd64
+    volumes:
+      - .:/blend
+      - gem_home:/vendor/cache:delegated
+    environment:
+      - RACK_ENV=test
+    stdin_open: true
+    tty: true
+
+  web:
+    <<: *base
+    build: .
+    command: "bundle exec puma -C config/puma.rb"
+    container_name: blend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - 3000:3000
+    depends_on:
+      - redis
+      - rabbitmq
+    environment:
+      - RACK_ENV=development
+      - REDIS_URL=redis://redis:6379
+      - RABBITMQ_URL=amqp://blenduss:blendpasswd@rabbitmq
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    container_name: blend-redis
+    ports:
+      - 6379:6379
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: unless-stopped
+    container_name: blend-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: blenduss
+      RABBITMQ_DEFAULT_PASS: blendpasswd
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+volumes:
+  gem_home:
