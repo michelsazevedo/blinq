@@ -1,4 +1,3 @@
-# warn_indent: true
 # frozen_string_literal: true
 
 threads_count = ENV['RACK_MAX_THREADS'] || 5

@@ -1,4 +1,3 @@
-# warn_indent: true
 # frozen_string_literal: true
 
 require 'bundler/setup'
@@ -6,6 +5,7 @@ require 'sinatra/base'
 require 'zeitwerk'
 
 require_relative 'sequeldb'
+require_relative 'rabbitmq'
 
 # Establish connection
 SequelDb.establish_connection!

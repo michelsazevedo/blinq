@@ -1,4 +1,3 @@
-# warn_indent: true
 # frozen_string_literal: true
 
 require 'sequel'
@@ -18,7 +17,11 @@ class SequelDb
 
     def connect!
       Sequel::Model.plugin :timestamps
-      Sequel.connect(connection_string)
+      Sequel.connect(connection_string).tap do |db|
+        at_exit do
+          db.disconnect
+        end
+      end
     end
 
     def connection_string

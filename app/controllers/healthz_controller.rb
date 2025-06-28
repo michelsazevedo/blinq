@@ -1,4 +1,3 @@
-# warn_indent: true
 # frozen_string_literal: true
 
 # Health Check
