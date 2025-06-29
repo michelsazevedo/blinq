@@ -51,6 +51,10 @@ GEM
     mustermann (3.0.3)
       ruby2_keywords (~> 0.0.1)
     nio4r (2.7.4)
+    oj (3.16.11)
+      bigdecimal (>= 3.0)
+      ostruct (>= 0.2)
+    ostruct (0.6.2)
     parallel (1.27.0)
     parser (3.3.8.0)
       ast (~> 2.4.1)
@@ -153,11 +157,13 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   bunny
+  connection_pool
   debug
   erb
   factory_bot
   ffaker
   json
+  oj
   puma
   rack
   rack-test

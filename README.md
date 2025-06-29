@@ -1,5 +1,7 @@
 ## Blinq
 
+![Performance: 1165 RPS @ 200 Concurrency](https://img.shields.io/badge/performance-1165%20RPS%20%40%20200c-brightgreen?style=for-the-badge&logo=ruby)
+
 A lightweight and scalable backend service built with **Sinatra** and **RabbitMQ** for creating posts and handling votes (upvotes/downvotes) efficiently.
 
 ### Built With

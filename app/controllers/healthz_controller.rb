@@ -3,6 +3,6 @@
 # Health Check
 class HealthzController < ApplicationController
   get '/' do
-    render json: { status: 'Ok!' }.to_json
+    render json: { status: 'Ok!' }
   end
 end

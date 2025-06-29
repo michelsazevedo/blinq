@@ -11,10 +11,10 @@ class ApplicationController < Sinatra::Base
 
   helpers do
     def request_params
-      body = JSON.parse(request.body.read)
+      body = Oj.load(request.body.read)
       body.transform_keys!(&:to_sym)
-    rescue JSON::ParserError
-      render json: { data: nil, errors: 'Invalid JSON format' }.to_json, status: 400
+    rescue Oj::ParseError
+      render json: Oj.dump({ data: nil, errors: 'Invalid JSON format' }), status: 400
     end
 
     def render(json:, status: 200)

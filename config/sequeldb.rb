@@ -17,7 +17,7 @@ class SequelDb
 
     def connect!
       Sequel::Model.plugin :timestamps
-      Sequel.connect(connection_string).tap do |db|
+      Sequel.connect(connection_string, max_connections: ENV.fetch("SEQUEL_POOL", 8)).tap do |db|
         at_exit do
           db.disconnect
         end

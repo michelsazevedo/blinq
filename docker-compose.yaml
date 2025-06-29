@@ -9,6 +9,7 @@ services:
       - gem_home:/vendor/cache:delegated
     environment:
       - RACK_ENV=test
+      - REDIS_URL=redis://redis:6379
     stdin_open: true
     tty: true
 

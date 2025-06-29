@@ -11,7 +11,9 @@ class CreatePost
     post = Post.new(title: title, content: content, user_id: user_id)
 
     if post.valid?
-      Success(post)
+      post.save!
+
+      Success(post.values)
     else
       Failure(post.errors)
     end

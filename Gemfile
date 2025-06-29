@@ -7,11 +7,14 @@ gem 'sinatra'
 gem 'bunny'
 gem 'erb'
 gem 'json'
+gem 'oj'
 gem 'puma'
 gem 'rack'
 gem 'redis'
 gem 'sequel'
 gem 'sqlite3'
+
+gem 'connection_pool'
 
 gem 'zeitwerk'
 

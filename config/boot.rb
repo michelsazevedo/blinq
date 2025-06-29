@@ -3,12 +3,15 @@
 require 'bundler/setup'
 require 'sinatra/base'
 require 'zeitwerk'
+require 'oj'
 
 require_relative 'sequeldb'
-require_relative 'rabbitmq'
 
 # Establish connection
 SequelDb.establish_connection!
+
+# Configure Oj
+Oj.default_options = { mode: :compat }
 
 # Load dependencies
 Bundler.setup :default, Sinatra::Application.environment
