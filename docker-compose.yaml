@@ -1,11 +1,11 @@
 services:
   test: &base
     build: .
-    image: blend-test
+    image: blinq-test
     command: bundle exec rspec -fd .
     platform: linux/amd64
     volumes:
-      - .:/blend
+      - .:/blinq
       - gem_home:/vendor/cache:delegated
     environment:
       - RACK_ENV=test
@@ -17,7 +17,7 @@ services:
     <<: *base
     build: .
     command: "bundle exec puma -C config/puma.rb"
-    container_name: blend
+    container_name: blinq
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/healthz"]
       interval: 30s
@@ -31,22 +31,22 @@ services:
     environment:
       - RACK_ENV=development
       - REDIS_URL=redis://redis:6379
-      - RABBITMQ_URL=amqp://blenduss:blendpasswd@rabbitmq
+      - RABBITMQ_URL=amqp://blinquss:blinqpasswd@rabbitmq
 
   redis:
     image: redis:alpine
     restart: unless-stopped
-    container_name: blend-redis
+    container_name: blinq-redis
     ports:
       - 6379:6379
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
     restart: unless-stopped
-    container_name: blend-rabbitmq
+    container_name: blinq-rabbitmq
     environment:
-      RABBITMQ_DEFAULT_USER: blenduss
-      RABBITMQ_DEFAULT_PASS: blendpasswd
+      RABBITMQ_DEFAULT_USER: blinquss
+      RABBITMQ_DEFAULT_PASS: blinqpasswd
     ports:
       - 5672:5672
       - 15672:15672

@@ -6,26 +6,32 @@ require 'sequel'
 class SequelDb
   class << self
     def establish_connection!
-      connect!
+      conn
     end
 
     def sequel_instance_exec(&block)
-      yield connect!
+      yield conn
     end
 
     private
 
-    def connect!
-      Sequel::Model.plugin :timestamps
-      Sequel.connect(connection_string, max_connections: ENV.fetch("SEQUEL_POOL", 8)).tap do |db|
-        at_exit do
-          db.disconnect
+    def conn
+      mutex.synchronize do
+        @conn ||= Sequel.connect(connection_string, max_connections: ENV.fetch("SEQUEL_POOL", 8)).tap do |db|
+          db.run("PRAGMA journal_mode=WAL;")
+          at_exit do
+            db.disconnect
+          end
         end
       end
     end
 
     def connection_string
-      "sqlite://db/blend.sqlite3"
+      "sqlite://db/blinq.sqlite3".freeze
+    end
+
+    def mutex
+      @mutex ||= Mutex.new
     end
   end
 end
