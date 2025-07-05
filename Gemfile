@@ -13,6 +13,7 @@ gem 'rack'
 gem 'redis'
 gem 'sequel'
 gem 'sqlite3'
+gem 'nokogiri'
 
 gem 'connection_pool'
 

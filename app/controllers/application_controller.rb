@@ -2,11 +2,12 @@
 
 # Application Base
 class ApplicationController < Sinatra::Base
+  use LogzMiddleware
+
   configure :production, :development do
     set :bind, '0.0.0.0'
     set :port, 3000
-
-    enable :logging
+    set :logger, Sinatra.logger
   end
 
   helpers do

@@ -5,7 +5,7 @@ RUN apk add --no-cache sqlite-libs sqlite-dev yaml-dev
 
 RUN bundle config build.nokogiri --use-system-libraries
 
-ENV APP_HOME /blend/
+ENV APP_HOME /blinq/
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 
