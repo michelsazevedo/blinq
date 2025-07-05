@@ -7,6 +7,8 @@ RSpec.describe GetPosts, type: :service do
 
   before do
     create_list(:post, 3)
+
+    Cache.configure
     Cache.instance.flushall
   end
 

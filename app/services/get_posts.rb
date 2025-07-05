@@ -41,7 +41,7 @@ class GetPosts
   end
 
   def cache_key
-    last_updated_at = Time.parse(Post.max(:updated_at))&.strftime("%Y%m%d%H%M%S") || 0
+    last_updated_at = Time.parse(Post.max(:updated_at))&.strftime('%Y%m%d%H%M%S') || 0
     "posts:recent_posts:#{last_updated_at}"
   end
 
