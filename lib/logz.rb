@@ -12,8 +12,8 @@ class Logz
     @logger = Logger.new(output)
     @logger.level = Logger.const_get(log_level.to_s.upcase)
 
-    @logger.formatter = proc do |severity, datetime, _, msg|
-      format_log(severity, datetime, msg)
+    @logger.formatter = proc do |severity, datetime, _, message|
+      format_log(severity, datetime, message)
     end
 
     @context = {}
