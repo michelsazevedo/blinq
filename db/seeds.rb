@@ -13,7 +13,7 @@ content_url = ''
   contents = html.css('p.gh-card-excerpt').map(&:text)
 
   posts = titles.zip(contents).map do |title, content|
-    { title: title, content: content, user_id: 42, created_at: Time.now, updated_at: Time.now }
+    { title: title, content: content, user_id: 42, upvotes: 0, downvotes: 0 }
   end
 
   puts Oj.dump({ page: page, posts: posts.count, error: nil })

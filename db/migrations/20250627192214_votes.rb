@@ -8,12 +8,11 @@ Sequel.migration do
 
       Integer  :user_id,    null: false, index: true
       String   :vote_type,  null: false, index: true
-      DateTime :created_at, null: false
-      DateTime :updated_at, null: false
+      DateTime :created_at, null: false, default: Sequel::CURRENT_TIMESTAMP
+      DateTime :updated_at, null: false, default: Sequel::CURRENT_TIMESTAMP
 
-      index [:post_id, :user_id], unique: true
-      check vote_type: ['up', 'down']
+      index %i[post_id user_id], unique: true
+      check vote_type: %w[upvote downvote]
     end
   end
 end
-

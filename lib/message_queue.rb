@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'connection_pool'
 
 ## RabbitMQ wrapper
@@ -86,7 +87,7 @@ class MessageQueue
 
   private
 
-  # Declares a dead-letter queue for the given queue
+  ## Declares a dead-letter queue for the given queue
   #
   # @param channel [Bunny::Channel] The Bunny channel
   # @param queue_name [String] The base name of the queue
