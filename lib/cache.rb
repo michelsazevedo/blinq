@@ -4,7 +4,6 @@ require 'connection_pool'
 require 'logger'
 require 'oj'
 require 'redis'
-require 'singleton'
 
 ## A Redis-backed thread-safe cache wrapper with connection pooling
 class Cache

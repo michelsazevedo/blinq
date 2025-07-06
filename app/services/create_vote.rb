@@ -11,8 +11,8 @@ class CreateVote
       Sinatra.cache.increment("post:#{post_id}:#{vote_type}")
       upvotes, downvotes = Sinatra.cache.fetch_multi(["post:#{post_id}:upvotes", "post:#{post_id}:downvotes"])
 
-      Sinatra.queue.publish('votes', vote_type: vote_type, post_id: post_id, user_id: user_id)
-      Success({ post_id: post_id, upvotes: upvotes, downvotes: downvotes })
+      Sinatra.queue.publish('votes', { vote_type: vote_type, post_id: post_id, user_id: user_id })
+      Success({ post_id: post_id, upvotes: upvotes.to_i, downvotes: downvotes.to_i })
     else
       Failure('Post not found')
     end

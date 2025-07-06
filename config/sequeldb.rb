@@ -17,8 +17,8 @@ class SequelDb
 
     def conn
       mutex.synchronize do
-        @conn ||= Sequel.connect(connection_string, max_connections: ENV.fetch("SEQUEL_POOL", 8)).tap do |db|
-          db.run("PRAGMA journal_mode=WAL;")
+        @conn ||= Sequel.connect(connection_string, max_connections: ENV.fetch('SEQUEL_POOL', 8)).tap do |db|
+          db.run('PRAGMA journal_mode=WAL;')
           at_exit do
             db.disconnect
           end
@@ -27,7 +27,7 @@ class SequelDb
     end
 
     def connection_string
-      "sqlite://db/blinq.sqlite3".freeze
+      'sqlite://db/blinq.sqlite3'
     end
 
     def mutex

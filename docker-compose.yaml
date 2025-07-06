@@ -29,6 +29,8 @@ services:
     depends_on:
       - redis
       - rabbitmq
+    networks:
+      - blinq
     environment:
       - RACK_ENV=development
       - REDIS_URL=redis://redis:6379
@@ -38,6 +40,8 @@ services:
     image: redis:alpine
     restart: unless-stopped
     container_name: blinq-redis
+    networks:
+      - blinq
     ports:
       - 6379:6379
 
@@ -45,6 +49,8 @@ services:
     image: rabbitmq:3-management-alpine
     restart: unless-stopped
     container_name: blinq-rabbitmq
+    networks:
+      - blinq
     environment:
       RABBITMQ_DEFAULT_USER: blinquss
       RABBITMQ_DEFAULT_PASS: blinqpasswd
@@ -54,3 +60,5 @@ services:
 
 volumes:
   gem_home:
+networks:
+  blinq:
