@@ -6,7 +6,7 @@ require 'zeitwerk'
 require 'oj'
 
 require_relative 'sequeldb'
-require_relative 'logging'
+require_relative 'extensions'
 
 # Establish connection
 SequelDb.establish_connection!
@@ -34,3 +34,4 @@ loader.push_dir File.join(File.dirname(__FILE__), 'middlewares')
 loader.push_dir File.join(File.dirname(__FILE__), '..', 'lib')
 
 loader.setup
+

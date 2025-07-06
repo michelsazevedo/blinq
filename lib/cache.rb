@@ -15,13 +15,13 @@ class Cache
     #
     # @param redis_url [String] Redis connection URL (default from ENV)
     # @param pool_size [Integer] Number of connections in the pool (default from ENV)
-    # @param logger [Logger] Logger instance (defaults to Sinatra.logger)
+    # @param logger [Logger] Logger instance (defaults to Logger.new)
     #
     # @return [Cache] the initialized Cache instance
-    def configure(redis_url: ENV['REDIS_URL'], pool_size: ENV['REDIS_POOL_SIZE'], logger: Sinatra.logger)
+    def configure(logger: nil, redis_url: ENV['REDIS_URL'], pool_size: ENV['REDIS_POOL_SIZE'])
       @redis_url = redis_url || 'redis://localhost:6379'
       @pool_size = pool_size || 5
-      @logger = logger
+      @logger = logger || Logger.new($stdout)
 
       @instance = Cache.new(redis_url: @redis_url, pool_size: @pool_size, logger: @logger)
     end

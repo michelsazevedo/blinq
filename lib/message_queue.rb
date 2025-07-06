@@ -1,15 +1,14 @@
 # frozen_string_literal: true
-
 require 'connection_pool'
 
-# RabbitMQ wrapper
-class Queue
+## RabbitMQ wrapper
+class MessageQueue
   ## Initializes the RabbitMQ connection and channel pool
   #
-  # @param logger [Logger] The logger to use (defaults to Sinatra.logger)
+  # @param logger [Logger] The logger to use (defaults to Logger.new)
   # @param heartbeat [Integer] Heartbeat interval in seconds
-  def initialize(logger: Sinatra.logger, heartbeat: 10)
-    @logger = logger
+  def initialize(logger: nil, heartbeat: 10)
+    @logger = logger || Logger.new($stdout)
     @connection_pool = ConnectionPool.new(size: ENV.fetch('RABBITMQ_POOL_SIZE', 5), timeout: 5) do
       conn = Bunny.new(ENV.fetch('RABBITMQ_URL'), automatically_recover: true, heartbeat: heartbeat)
       conn.start
@@ -28,13 +27,13 @@ class Queue
   def publish(queue_name, message, durable: true)
     @connection_pool.with do |resource|
       channel = resource[:channels].sample
-      queue = resource[:mutex].synchronize do
-        resources[:queues][queue_name] ||= channel.queue(queue_name, durable: durable)
+      queue = resource[:channel_mutex].synchronize do
+        resource[:queues][queue_name] ||= channel.queue(queue_name, durable: durable)
       end
       queue.publish(Oj.dump(message), persistent: true)
     end
   rescue StandardError => e
-    logger.error("Error to publish to #{queue_name}: #{e.message}")
+    @logger.error("Error to publish to #{queue_name}: #{e.message}")
   end
 
   ## Subscribes to a queue and processes messages using the given block
@@ -54,7 +53,7 @@ class Queue
   def subscribe(queue_name, durable: true, manual_ack: false, dlq: false, &block)
     @connection_pool.with do |resource|
       channel = resource[:channels].sample
-      resource[:mutex].synchronize do
+      resource[:channel_mutex].synchronize do
         dlq!(channel, queue_name, durable: durable) if dlq
 
         queue = resource[:queues][queue_name] ||= begin
@@ -66,7 +65,7 @@ class Queue
           block.call(Oj.load(payload), delivery_info, properties, channel)
           channel.ack(delivery_info.delivery_tag) if manual_ack
         rescue StandardError => e
-          logger.error("Consumer error on #{queue_name}: #{e.message}")
+          @logger.error("Consumer error on #{queue_name}: #{e.message}")
           channel.reject(delivery_info.delivery_tag, requeue = false) if manual_ack && dlq
         end
       end
@@ -77,9 +76,11 @@ class Queue
   #
   # @return [void]
   def graceful_shutdown
-    @connection_pool.with do |resource|
-      resource[:channels].each { |chanel| chanel.close if chanel.open? }
-      resource[:connection].close if resource[:connection].open?
+    at_exit do
+      @connection_pool.with do |resource|
+        resource[:channels].each { |chanel| chanel.close if chanel.open? }
+        resource[:connection].close if resource[:connection].open?
+      end
     end
   end
 
