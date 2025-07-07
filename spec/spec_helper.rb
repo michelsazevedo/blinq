@@ -34,6 +34,7 @@ RSpec.configure do |config|
   config.after(:each) do
     SequelDb.sequel_instance_exec do |db|
       db[:posts].truncate
+      db[:votes].truncate
     end
   end
 end
