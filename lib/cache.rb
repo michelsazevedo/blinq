@@ -96,6 +96,47 @@ class Cache
     end
   end
 
+  ## Loads a Lua script into Redis and returns its SHA identifier
+  #
+  # @param script [String] the Lua script to load
+  #
+  # @return [String] the SHA1 of the script
+  def load_script(script)
+    with_redis { |conn| conn.script(:load, script) }
+  end
+
+  ## Pushes a serialized item onto the end of a Redis list
+  #
+  # @param key [String] Redis list key
+  # @param item [Object] the item to serialize and push
+  #
+  # @return [Integer] the new length of the list
+  def rpush(key, item)
+    with_redis { |conn| conn.rpush(key, Oj.dump(item)) }
+  end
+
+  ## Executes a previously loaded Lua script by SHA
+  #
+  # @param flush [String] the SHA of the loaded script
+  # @param keys [Array<String>] Redis keys used in the script
+  # @param argv [Array<String>] Arguments passed to the script
+  #
+  # @return [Object] the result of the script execution
+  def evalsha(flush, keys: [key, last_flush_key], argv: [threshold, interval, time])
+    with_redis { |conn| conn.evalsha(flush, keys: keys, argv: argv) }
+  end
+
+  ## Retrieves a range of elements from a Redis list
+  #
+  # @param key [String] Redis list key
+  # @param start [Integer] Start index
+  # @param stop [Integer] Stop index
+  #
+  # @return [Array<String>] the list of items as strings
+  def lrange(key, start, stop)
+    with_redis { |conn| conn.lrange(key, start, stop) }
+  end
+
   ## Clears all keys from Redis
   #
   # @return [String, nil] "OK" if successful, or nil on failure

@@ -14,7 +14,7 @@ class CreateVote
       Sinatra.cache.increment("post:#{post_id}:#{vote_type}")
       upvotes, downvotes = Sinatra.cache.fetch_multi(["post:#{post_id}:upvotes", "post:#{post_id}:downvotes"])
 
-      Sinatra.queue.publish('votes', { vote_type: vote_type, post_id: post_id, user_id: user_id })
+      Sinatra.queue.publish('votes', vote)
 
       Success({ post_id: post_id, upvotes: (upvotes.to_i + post.upvotes),
                 downvotes: (downvotes.to_i + post.downvotes) })
@@ -24,6 +24,10 @@ class CreateVote
   end
 
   private
+
+  def vote
+    @vote ||= { vote_type: vote_type, post_id: post_id, user_id: user_id }
+  end
 
   def valid?(vote)
     return false unless vote.is_a?(Hash) && REQUIRED_KEYS.all? { |key| vote.key?(key) }
