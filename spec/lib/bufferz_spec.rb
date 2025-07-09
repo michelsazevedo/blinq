@@ -3,11 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe Bufferz do
-  subject(:buffer) { described_class.new(redis: redis, key: key, threshold: threshold) }
+  subject(:buffer) { described_class.new(redis: redis, key: key, threshold: threshold, interval: interval) }
 
   let(:key) { 'votes' }
   let(:threshold) { 3 }
-  let(:redis) { instance_double(Redis) }
+  let(:interval) { 300 }
+  let(:redis) { instance_double(Cache) }
   let(:lua_sha) { 'Lua42' }
 
   let(:item) { { post_id: 42, user_id: 1, vote_type: 'upvote' } }
@@ -20,7 +21,7 @@ RSpec.describe Bufferz do
   let(:serialized_items) { items.map { |i| Oj.dump(i) } }
 
   before do
-    allow(redis).to receive(:script).with(:load, anything).and_return(lua_sha)
+    allow(redis).to receive(:load_script).and_return(lua_sha)
   end
 
   describe '#push' do

@@ -18,7 +18,7 @@ class GetPosts
       if post
         post.values
       else
-        Cache.instance.fetch("post:#{post_id}") do
+        Sinatra.cache.fetch("post:#{post_id}") do
           Post.find(id: post_id)
         end.values
       end
@@ -28,7 +28,7 @@ class GetPosts
   private
 
   def recent_posts_ids
-    @recent_posts_ids ||= Cache.instance.fetch(cache_key) do
+    @recent_posts_ids ||= Sinatra.cache.fetch(cache_key) do
       Post.order(Sequel.desc(:updated_at)).limit(limit).map(&:id)
     end
   end
@@ -36,12 +36,12 @@ class GetPosts
   def recent_posts_cache
     @recent_posts_cache ||= begin
       recent_posts_keys = recent_posts_ids.map { |id| "post:#{id}" }
-      Cache.instance.fetch_multi(recent_posts_keys)
+      Sinatra.cache.fetch_multi(recent_posts_keys)
     end
   end
 
   def cache_key
-    last_updated_at = Time.parse(Post.max(:updated_at))&.strftime('%Y%m%d%H%M%S') || 0
+    last_updated_at = Time.parse(Post.max(:updated_at).to_s)&.strftime('%Y%m%d%H%M%S') || 0
     "posts:recent_posts:#{last_updated_at}"
   end
 

@@ -66,7 +66,7 @@ class Bufferz
   #
   # @return [Array<Object>|nil] the flushed items, or nil if buffer was empty
   def flushall
-    items = edis.lrange(key, 0, -1)
+    items = redis.lrange(key, 0, -1)
     redis.del(key)
 
     items.empty? ? nil : items.map { |item| Oj.load(item) }
