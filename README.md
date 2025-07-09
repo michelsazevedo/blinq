@@ -51,16 +51,16 @@ curl -X POST http://localhost:3000/posts/42/vote \
 ```
 
 ### References
-[Caching Strategy: Cache-Aside Pattern](https://www.enjoyalgorithms.com/blog/cache-aside-caching-strategy)
-[Understanding Puma Workers, Threads, and Database Connection Pooling](https://hewi.blog/scaling-rails-understanding-puma-workers-threads-and-database-connection-pooling)
-[Optimizing Configurations](https://developers.chatwoot.com/self-hosted/deployment/performance/optimizing-configurations)
-[RabbitMQ Best Practice for High Performance (High Throughput)](https://www.cloudamqp.com/blog/part2-rabbitmq-best-practice-for-high-performance.html)
-[Designing High-Performance APIs](https://dzone.com/articles/designing-high-performance-apis)
-[Mastering API Throughput: 8 Key Strategies for Optimal Performance](https://zuplo.com/blog/2025/02/21/mastering-api-throughput)
-[Strategies for Scaling Databases: A Comprehensive Guide](https://medium.com/@anil.goyal0057/strategies-for-scaling-databases-a-comprehensive-guide-b69cda7df1d3)
-[Scaling Up Software: Redis Buffering and Batch Processing for High-Throughput Applications](https://medium.com/@oey.joshua/scaling-up-software-redis-buffering-and-batch-processing-for-high-throughput-applications-64bb16a2d832)
-[Redis: Pipelining, Transactions and Lua Scripts](https://rafaeleyng.github.io/redis-pipelining-transactions-and-lua-scripts)
-[Harnessing the Power of Redis Cache Lua Scripting](https://mvineetsharma.medium.com/harnessing-the-power-of-redis-cache-lua-scripting-15ed8dbf87b1)
+- [Caching Strategy: Cache-Aside Pattern](https://www.enjoyalgorithms.com/blog/cache-aside-caching-strategy)
+- [Understanding Puma Workers, Threads, and Database Connection Pooling](https://hewi.blog/scaling-rails-understanding-puma-workers-threads-and-database-connection-pooling)
+- [Optimizing Configurations](https://developers.chatwoot.com/self-hosted/deployment/performance/optimizing-configurations)
+- [RabbitMQ Best Practice for High Performance (High Throughput)](https://www.cloudamqp.com/blog/part2-rabbitmq-best-practice-for-high-performance.html)
+- [Designing High-Performance APIs](https://dzone.com/articles/designing-high-performance-apis)
+- [Mastering API Throughput: 8 Key Strategies for Optimal Performance](https://zuplo.com/blog/2025/02/21/mastering-api-throughput)
+- [Strategies for Scaling Databases: A Comprehensive Guide](https://medium.com/@anil.goyal0057/strategies-for-scaling-databases-a-comprehensive-guide-b69cda7df1d3)
+- [Scaling Up Software: Redis Buffering and Batch Processing for High-Throughput Applications](https://medium.com/@oey.joshua/scaling-up-software-redis-buffering-and-batch-processing-for-high-throughput-applications-64bb16a2d832)
+- [Redis: Pipelining, Transactions and Lua Scripts](https://rafaeleyng.github.io/redis-pipelining-transactions-and-lua-scripts)
+- [Harnessing the Power of Redis Cache Lua Scripting](https://mvineetsharma.medium.com/harnessing-the-power-of-redis-cache-lua-scripting-15ed8dbf87b1)
 
 ## License
 Copyright © 2025
