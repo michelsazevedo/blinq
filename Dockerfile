@@ -1,7 +1,10 @@
 FROM ruby:3.4-alpine
 
-RUN apk add --no-cache build-base libxml2-dev libxslt-dev
-RUN apk add --no-cache sqlite-libs sqlite-dev yaml-dev
+## Install build dependencies
+RUN apk add --no-cache build-base libxml2-dev libxslt-dev sqlite-libs sqlite-dev yaml-dev jemalloc
+
+## Use jemalloc as malloc replacement
+ENV LD_PRELOAD=/usr/lib/libjemalloc.so.2
 
 RUN bundle config build.nokogiri --use-system-libraries
 
